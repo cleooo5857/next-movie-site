@@ -1,7 +1,6 @@
-.Wrap {
-}
 .Banner_wrap {
   position: relative;
+  top: -64px;
 }
 
 .Banner_inner {
@@ -9,15 +8,48 @@
   height: 56.25vw;
   width: 100%;
   z-index: 0;
+  top: -64px;
+}
+
+.Banner_inner img {
+  position: relative !important;
+  object-fit: cover;
+}
+
+.Banner_inner .Banner_info {
+  bottom: 35%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  left: 4%;
+  position: absolute;
   top: 0;
+  width: 36%;
+  z-index: 10;
+}
+.Banner_inner .Banner_info h2 {
+  font-size: 3rem;
+  font-weight: 800;
+  padding-bottom: 0.5rem;
+  color: #fff;
+}
+
+.Banner_inner .Banner_info p {
+  color: #fff;
+  line-height: 1.3;
+  padding-top: 1rem;
+  font-weight: 500;
+  font-size: 1rem;
+  overflow: hidden;
+  white-space: normal;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  word-break: keep-all;
 }
 
 iframe {
-  /* position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%; */
   pointer-events: none;
 }
 
@@ -25,11 +57,47 @@ iframe {
   width: 100%;
   height: 100%;
 }
+.banner-fadeBottom {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 7.4rem;
+  background-image: linear-gradient(
+    180deg,
+    transparent,
+    rgba(37, 37, 37, 0.61),
+    #111
+  );
+}
 
-.Movie_Rank img {
+.Movie_Wrap {
+  box-sizing: inherit;
+}
+.Movie_Wrap li {
+  margin-bottom: 2rem;
+}
+
+.Movie_Wrap h2 {
+  font-weight: bold;
+  font-size: 3rem;
+  color: #fff;
+  margin-bottom: 3rem;
+}
+
+.Movie_Wrap img {
   position: relative !important;
   object-fit: cover;
+  height: 329px !important;
+  transition: transform 450ms;
+  min-height: 198px !important;
 }
-.Movie_Rank {
-  box-sizing: inherit;
+
+.Movie_Wrap .Movie_Rank {
+  position: absolute;
+  color: rgb(255, 255, 255);
+  bottom: -30%;
+  left: 15px;
+  font-style: italic;
+  font-family: Calibri;
+  font-size: 100px;
 }

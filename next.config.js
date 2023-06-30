@@ -5,29 +5,21 @@ module.exports = {
   env: {
     API_KEY: process.env.NEXT_PUBLIC_API_KEY,
     BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
+    NEXT_PUBLIC_KAKAO_CLIENT_ID: process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID,
+    NEXT_PUBLIC_KAKAO_CLIENT_SECRET:
+      process.env.NEXT_PUBLIC_KAKAO_CLIENT_SECRET,
   },
   images: {
-    domains: ["image.tmdb.org"],
+    domains: ["image.tmdb.org", "k.kakaocdn.net"],
   },
-  // images: {
-  //   remotePatterns: [
-  //     {
-  //       protocol: "https",
-  //       hostname:
-  //         "image.tmdb.org/t/p/original//e2Jd0sYMCe6qvMbswGQbM0Mzxt0.jpg",
-  //       port: "",
-  //       pathname: "/Navbar/**",
-  //     },
-  //   ],
-  //   remotePatterns: [
-  //     {
-  //       protocol: "https",
-  //       hostname: "image.tmdb.org/t/p/original/",
-  //       port: "",
-  //       pathname: "pages/index/**",
-  //     },
-  //   ],
-  // },
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ["@svgr/webpack"],
+    });
+
+    return config;
+  },
   async redirects() {
     return [
       {

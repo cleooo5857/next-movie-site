@@ -1,12 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import Profile from "./Profile";
 
 export default function NavBar() {
   const router = useRouter();
 
   return (
-    <nav className=" inset-y-0 z-10">
+    <nav className="sticky inset-y-0 z-10">
       <div className="flex items-center justify-between px-5 h-16 ">
         <h1>
           <Link href="/">
@@ -26,6 +27,9 @@ export default function NavBar() {
           <Link className="px-5" href="/about">
             About
           </Link>
+        </div>
+        <div>
+          <Profile />
         </div>
       </div>
     </nav>

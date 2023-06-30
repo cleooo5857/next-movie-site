@@ -1,13 +1,17 @@
 import { AppProps } from "next/app";
+import { SessionProvider } from "next-auth/react";
 import "../styles/globals.css";
 import Layout from "@/components";
 import "../styles/indexPage.css";
+import "../styles/movieModal.css";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
-      <Layout />
-      <Component {...pageProps} />
+      <SessionProvider session={pageProps.session}>
+        <Layout />
+        <Component {...pageProps} />
+      </SessionProvider>
     </>
   );
 }
