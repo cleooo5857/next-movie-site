@@ -1,8 +1,9 @@
 import instance from "@/apis";
 import MovieModal from "@/components/MovieModal/modal";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { signIn, useSession, signOut } from "next-auth/react";
+import Filter from "@/components/filter/filter";
 
 interface MovieInfoProps {
   // userInfo : InAuthUser | null;
@@ -12,8 +13,9 @@ export default function Home({ results, movieDetail }: any) {
   const [modalOpen, setModalOpen] = useState(false);
   const [movieSelected, setMovieSelected] = useState({});
   const { data: session } = useSession();
-  console.log(session);
+  const [filterItem, setFilterItem] = useState<number[]>([]);
 
+  const test = [18, 80];
   const onClickModalOpen = (movie: any) => {
     setModalOpen(true);
     setMovieSelected(movie);
@@ -53,9 +55,10 @@ export default function Home({ results, movieDetail }: any) {
         <div className="banner-fadeBottom "></div>
       </div>
       <div className="Movie_Wrap px-4">
+        <Filter filterItem={filterItem} setFilterItem={setFilterItem} />
         <h2>인기 영화</h2>
         <ul className="flex flex-wrap justify-between ">
-          {results.map((movie: any, i: number) => (
+          {/* {results.map((movie: any, i: number) => (
             <li
               onClick={() => onClickModalOpen(movie)}
               className="w-60 relative rounded-md m-1 "
@@ -68,16 +71,42 @@ export default function Home({ results, movieDetail }: any) {
                 fill={true}
               />
               <h2 className="Movie_Rank">{i + 1}</h2>
-              {/* <div>
-                <h3 className="font-medium mt-2.5 text-sm text-white">
-                  {movie.title}
-                </h3>
-                <p className="font-medium mt-2.5 text-sm text-white">
-                  개봉일 : {movie.release_date}
-                </p>
-              </div> */}
+              
             </li>
-          ))}
+          ))} */}
+          {filterItem.length === 0
+            ? results.map((movie: any, i: any) => (
+                <li
+                  onClick={() => onClickModalOpen(movie)}
+                  className="w-60 relative rounded-md m-1 "
+                  key={i}
+                >
+                  <Image
+                    className="hover:scale-125"
+                    src={`https://image.tmdb.org/t/p/original/${movie.poster_path} `}
+                    alt={movie.name}
+                    fill={true}
+                  />
+                  <h2 className="Movie_Rank">{i + 1}</h2>
+                </li>
+              ))
+            : results.map((movie: any, i: any) =>
+                movie.genre_ids.includes(...filterItem) ? (
+                  <li
+                    onClick={() => onClickModalOpen(movie)}
+                    className="w-60 relative rounded-md m-1 "
+                    key={`movie-${i}`}
+                  >
+                    <Image
+                      className="hover:scale-125"
+                      src={`https://image.tmdb.org/t/p/original/${movie.poster_path} `}
+                      alt={movie.name}
+                      fill={true}
+                    />
+                    <h2 className="Movie_Rank">{i + 1}</h2>
+                  </li>
+                ) : null
+              )}
         </ul>
       </div>
       {modalOpen && (
@@ -89,7 +118,7 @@ export default function Home({ results, movieDetail }: any) {
 
 export async function getStaticProps() {
   try {
-    const response = await instance.get("/movie/popular");
+    const response = await instance.get("/movie/top_rated");
     const { results } = response.data;
     const movieId = results[Math.floor(Math.random() * results.length)].id;
     const { data: movieDetail } = await instance.get(`movie/${movieId}`, {

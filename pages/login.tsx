@@ -2,7 +2,7 @@
 
 "use client";
 import React, { useRef, useEffect, useState } from "react";
-import { ignIn, signOut, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 function Login() {
   // 추가된 부분
