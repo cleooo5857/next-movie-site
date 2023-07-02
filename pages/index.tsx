@@ -15,7 +15,12 @@ export default function Home({ results, movieDetail }: any) {
   const { data: session } = useSession();
   const [filterItem, setFilterItem] = useState<number[]>([]);
 
-  const test = [18, 80];
+  // console.log(
+  //   results.map((movie: any, i: any) =>
+  //     movie.genre_ids.some((genreId: number) => filterItem.includes(genreId))
+  //   )
+  // );
+
   const onClickModalOpen = (movie: any) => {
     setModalOpen(true);
     setMovieSelected(movie);
@@ -54,32 +59,16 @@ export default function Home({ results, movieDetail }: any) {
         </div>
         <div className="banner-fadeBottom "></div>
       </div>
-      <div className="Movie_Wrap px-4">
+      <div className="Movie_Wrap   px-4">
         <Filter filterItem={filterItem} setFilterItem={setFilterItem} />
-        <h2>인기 영화</h2>
-        <ul className="flex flex-wrap justify-between ">
-          {/* {results.map((movie: any, i: number) => (
-            <li
-              onClick={() => onClickModalOpen(movie)}
-              className="w-60 relative rounded-md m-1 "
-              key={i}
-            >
-              <Image
-                className="hover:scale-125"
-                src={`https://image.tmdb.org/t/p/original/${movie.poster_path} `}
-                alt={movie.name}
-                fill={true}
-              />
-              <h2 className="Movie_Rank">{i + 1}</h2>
-              
-            </li>
-          ))} */}
+        <h2>인기 순위 VOD</h2>
+        <ul className="flex flex-wrap justify-center ">
           {filterItem.length === 0
             ? results.map((movie: any, i: any) => (
                 <li
                   onClick={() => onClickModalOpen(movie)}
                   className="w-60 relative rounded-md m-1 "
-                  key={i}
+                  key={`movie-${i}`}
                 >
                   <Image
                     className="hover:scale-125"
@@ -87,15 +76,16 @@ export default function Home({ results, movieDetail }: any) {
                     alt={movie.name}
                     fill={true}
                   />
-                  <h2 className="Movie_Rank">{i + 1}</h2>
                 </li>
               ))
             : results.map((movie: any, i: any) =>
-                movie.genre_ids.includes(...filterItem) ? (
+                movie.genre_ids.some((genreId: number) =>
+                  filterItem.includes(genreId)
+                ) ? (
                   <li
                     onClick={() => onClickModalOpen(movie)}
                     className="w-60 relative rounded-md m-1 "
-                    key={`movie-${i}`}
+                    key={`filtered-movie-${i}`}
                   >
                     <Image
                       className="hover:scale-125"
@@ -103,12 +93,12 @@ export default function Home({ results, movieDetail }: any) {
                       alt={movie.name}
                       fill={true}
                     />
-                    <h2 className="Movie_Rank">{i + 1}</h2>
                   </li>
                 ) : null
               )}
         </ul>
       </div>
+
       {modalOpen && (
         <MovieModal {...movieSelected} setModalOpen={setModalOpen} />
       )}

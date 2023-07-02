@@ -73,6 +73,9 @@ iframe {
 .Movie_Wrap {
   box-sizing: inherit;
 }
+.Movie_Wrap ul {
+  gap: 27px;
+}
 .Movie_Wrap li {
   margin-bottom: 2rem;
 }

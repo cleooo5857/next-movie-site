@@ -3,9 +3,26 @@
   grid-gap: 10px;
   gap: 10px;
   align-items: center;
-  border: 1px solid #d0d0d0;
+  border: 2px solid #fff;
   border-radius: 100px;
   padding: 12px 20px 12px 15px;
   transition: all 0.1s ease-in;
   cursor: pointer;
+  color: #fff;
+  font-weight: 550;
+}
+
+.Genreitem.active {
+  display: flex;
+  grid-gap: 10px;
+  gap: 10px;
+  align-items: center;
+  border-radius: 100px;
+  padding: 12px 20px 12px 15px;
+  transition: all 0.1s ease-in;
+  cursor: pointer;
+  color: #000;
+  font-weight: 550;
+  background-color: #fff;
+  color: #333;
 }

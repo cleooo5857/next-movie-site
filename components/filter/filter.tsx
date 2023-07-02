@@ -11,17 +11,18 @@ export default function Filter({ filterItem, setFilterItem }: any) {
     if (filterItem.includes(genreId)) {
       setFilterItem(filterItem.filter((item: number) => item !== genreId));
       return;
-    } else {
-      setFilterItem([...filterItem, genreId]);
     }
+    setFilterItem([...filterItem, genreId]);
   };
 
   return (
-    <div className="w-8/12">
+    <div className="w-8/12 mx-auto">
       <ul className="flex flex-wrap gap-3.5">
         {genres.map((item) => (
           <li
-            className="Genreitem "
+            className={` ${
+              filterItem.includes(item.id) ? "Genreitem active" : "Genreitem"
+            }`}
             onClick={(e) => onClickTargetName(e, item.id)}
             key={item.id}
           >
