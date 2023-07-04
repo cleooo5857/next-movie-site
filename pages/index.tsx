@@ -6,7 +6,22 @@ import { signIn, useSession, signOut } from "next-auth/react";
 import Filter from "@/components/filter/filter";
 
 interface MovieInfoProps {
-  // userInfo : InAuthUser | null;
+  results: {
+    title: string;
+    overview: string;
+    backdrop_path: string;
+    poster_path: string;
+  };
+}
+
+interface MovieInfoDetailProps {
+  title: string;
+  overview: string;
+}
+
+interface MovieInfo {
+  title: string;
+  overview: string;
 }
 
 export default function Home({ results, movieDetail }: any) {
@@ -14,12 +29,7 @@ export default function Home({ results, movieDetail }: any) {
   const [movieSelected, setMovieSelected] = useState({});
   const { data: session } = useSession();
   const [filterItem, setFilterItem] = useState<number[]>([]);
-
-  // console.log(
-  //   results.map((movie: any, i: any) =>
-  //     movie.genre_ids.some((genreId: number) => filterItem.includes(genreId))
-  //   )
-  // );
+  console.log(results);
 
   const onClickModalOpen = (movie: any) => {
     setModalOpen(true);
@@ -48,7 +58,8 @@ export default function Home({ results, movieDetail }: any) {
                 className="Banner_image"
                 src={`https://image.tmdb.org/t/p/original/${results[1].backdrop_path}`}
                 alt={results[1].title}
-                fill={true}
+                fill
+                sizes="(min-width: 768px) 50vw, (max-width: 1280px) 50vw, 33vw"
               />
               <div className="Banner_info">
                 <h2>{results[1].title}</h2>
@@ -74,7 +85,8 @@ export default function Home({ results, movieDetail }: any) {
                     className="hover:scale-125"
                     src={`https://image.tmdb.org/t/p/original/${movie.poster_path} `}
                     alt={movie.name}
-                    fill={true}
+                    fill
+                    sizes="(min-width: 768px) 50vw, (max-width: 1280px) 50vw, 33vw"
                   />
                 </li>
               ))
@@ -91,7 +103,8 @@ export default function Home({ results, movieDetail }: any) {
                       className="hover:scale-125"
                       src={`https://image.tmdb.org/t/p/original/${movie.poster_path} `}
                       alt={movie.name}
-                      fill={true}
+                      fill
+                      sizes="(min-width: 768px) 50vw, (max-width: 1280px) 50vw, 33vw"
                     />
                   </li>
                 ) : null
