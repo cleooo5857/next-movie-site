@@ -4,6 +4,9 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { signIn, useSession, signOut } from "next-auth/react";
 import Filter from "@/components/filter/filter";
+import { app, auth } from "firebase-admin";
+import { db } from "@/firebase/firebaseClient";
+import { getAuth } from "firebase/auth";
 
 interface MovieInfoProps {
   results: {
@@ -29,7 +32,8 @@ export default function Home({ results, movieDetail }: any) {
   const [movieSelected, setMovieSelected] = useState({});
   const { data: session } = useSession();
   const [filterItem, setFilterItem] = useState<number[]>([]);
-  console.log(results);
+  const { currentUser } = getAuth();
+  console.log(app());
 
   const onClickModalOpen = (movie: any) => {
     setModalOpen(true);
@@ -47,10 +51,6 @@ export default function Home({ results, movieDetail }: any) {
                 height="100%"
                 src={`https://www.youtube.com/embed/${movieDetail.videos.results[0].key}?playlist=${movieDetail.videos.results[0].key}&showinfo=0&modestbranding=1&controls=0&&autohide=0&autoplay=1&loop=1&mute=1&`}
               ></iframe>
-              <div className="Banner_info">
-                <h2>{movieDetail.title}</h2>
-                <p>{movieDetail.overview}</p>
-              </div>
             </>
           ) : (
             <>

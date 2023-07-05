@@ -5,7 +5,7 @@ import HeaderSearch from "./Search";
 
 export default function NavBar() {
   return (
-    <nav className="sticky inset-y-0 z-10">
+    <nav className="bg-black sticky inset-y-0 z-10">
       <div className="flex items-center justify-between px-5 h-16 ">
         <h1>
           <Link href="/">
@@ -18,18 +18,16 @@ export default function NavBar() {
             />
           </Link>
         </h1>
-        <div className="text-white">
+        {/* <div className="text-white">
           <Link className="px-5" href="/">
             HOME
           </Link>
           <Link className="px-5" href="/about">
             About
           </Link>
-        </div>
-        <div>
+        </div> */}
+        <div className="flex align-center">
           <HeaderSearch />
-        </div>
-        <div>
           <Profile />
         </div>
       </div>
