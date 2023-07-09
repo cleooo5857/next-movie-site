@@ -2,11 +2,12 @@ import instance from "@/apis";
 import MovieModal from "@/components/MovieModal/modal";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { signIn, useSession, signOut } from "next-auth/react";
+import { signIn, useSession, signOut, getCsrfToken } from "next-auth/react";
 import Filter from "@/components/filter/filter";
 import { app, auth } from "firebase-admin";
 import { db } from "@/firebase/firebaseClient";
 import { getAuth } from "firebase/auth";
+import { getToken } from "next-auth/jwt";
 
 interface MovieInfoProps {
   results: {
@@ -32,8 +33,12 @@ export default function Home({ results, movieDetail }: any) {
   const [movieSelected, setMovieSelected] = useState({});
   const { data: session } = useSession();
   const [filterItem, setFilterItem] = useState<number[]>([]);
-  const { currentUser } = getAuth();
-  console.log(app());
+
+  async function myFunction() {
+    const csrfToken = await getCsrfToken();
+  }
+
+  myFunction();
 
   const onClickModalOpen = (movie: any) => {
     setModalOpen(true);

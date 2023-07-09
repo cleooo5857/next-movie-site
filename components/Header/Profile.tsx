@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import Mysvg from "../../public/profile.svg";
 import { useState } from "react";
-import LoginModal from "./LoginModal";
+import LoginModal from "./Login/LoginModal";
 import { useSession, signOut } from "next-auth/react";
 
 export default function Profile() {

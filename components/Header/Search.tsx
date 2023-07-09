@@ -36,7 +36,6 @@ const HeaderSearch = () => {
     },
     [search]
   );
-  console.log(search);
 
   return (
     <div
