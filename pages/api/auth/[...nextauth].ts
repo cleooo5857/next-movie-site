@@ -8,14 +8,14 @@ export default NextAuth({
       clientSecret: process.env.NEXT_PUBLIC_KAKAO_CLIENT_SECRET!,
     }),
   ],
-  callbacks: {
-    async jwt({ token, user }) {
-      return { ...token, ...user };
-    },
+  // callbacks: {
+  //   async jwt({ token, user }) {
+  //     return { ...token, ...user };
+  //   },
 
-    async session({ session, token }) {
-      session.user = token as any;
-      return session;
-    },
-  },
+  //   async session({ session, token }) {
+  //     session.user = token as any;
+  //     return session;
+  //   },
+  // },
 });

@@ -18,12 +18,8 @@
 
 .Banner_inner .Banner_info {
   bottom: 35%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
   left: 4%;
   position: absolute;
-  top: 0;
   width: 36%;
   z-index: 10;
 }

@@ -4,55 +4,86 @@ import { useRouter } from "next/router";
 import KoKologo from "@/public/kokologo.svg";
 import Googlelogo from "@/public/googlelogo.svg";
 import { getProviders, signIn, signOut, useSession } from "next-auth/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getToken } from "next-auth/jwt";
 import axios from "axios";
 
 export default function LoginModal({ setLoginModalOpen }: any) {
   const router = useRouter();
-
+  const [code, setCode] = useState<string | null>(null);
   const onClickLogin = () => {
     signIn("kakao");
     router.push("/");
   };
+  useEffect(() => {
+    const redirectURI = "http://localhost:3000";
+    const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID}&redirect_uri=${redirectURI}`;
 
-  const handleLoginClick = () => {
-    window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID}&redirect_uri=http://localhost:3000`;
+    console.log(kakaoAuthURL);
+    if (code) {
+      setCode(code);
+    }
+  }, []);
+  // const handleLoginClick = () => {
+  //   const urlParams = new URLSearchParams(window.location.search);
+  //   const code = urlParams.get("code");
+
+  // };
+  const getCode = async () => {
+    try {
+      const response = await axios.post(
+        "https://kauth.kakao.com/oauth/token",
+        null,
+        {
+          params: {
+            grant_type: "authorization_code",
+            client_id: process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID,
+            redirect_uri: "http://localhost:3000",
+            code: code,
+          },
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      );
+
+      const { access_token } = response.data;
+      console.log(access_token);
+      return access_token;
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const redirectUri = decodeURIComponent("http://localhost:3000");
+  // useEffect(() => {
+  //   const getCode = async (code : string | null) => {
+  //     try {
+  //       const response = await axios.post(
+  //         "https://kauth.kakao.com/oauth/token",
+  //         null,
+  //         {
+  //           params: {
+  //             grant_type: "authorization_code",
+  //             client_id: process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID,
+  //             redirect_uri: "http://localhost:3000",
+  //             code: code,
+  //           },
+  //           headers: {
+  //             "Content-Type": "application/x-www-form-urlencoded",
+  //           },
+  //         }
+  //       );
 
-  useEffect(() => {
-    const getCode = async () => {
-      const code = new URL(window.location.href).searchParams.get("code");
-      if (code) {
-        try {
-          const response = await axios.post(
-            "https://kauth.kakao.com/oauth/token",
-            null,
-            {
-              params: {
-                grant_type: "authorization_code",
-                client_id: process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID,
-                redirect_uri: "http://localhost:3000",
-                code: code,
-              },
-              headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-              },
-            }
-          );
-          const { access_token } = response.data;
-          console.log(access_token);
-          return access_token;
-        } catch (error) {
-          console.error(error);
-        }
-      }
-    };
+  //       const { access_token } = response.data;
+  //       console.log(access_token);
+  //       return access_token;
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
 
-    getCode();
-  }, []);
+  //     getCode(code);
+  // }, []);
   // Make a POST request to the Kakao token API
 
   return (
@@ -84,7 +115,7 @@ export default function LoginModal({ setLoginModalOpen }: any) {
                   <KoKologo />
                 </button>
                 <button
-                  onClick={handleLoginClick} // href={`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${
+                  onClick={getCode} // href={`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${
                   //   process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID
                   // }&redirect_uri=${"http://localhost:3000"}`}
                 >

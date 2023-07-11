@@ -23,10 +23,10 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <SessionProvider session={pageProps.session}>
-        {/* <Script
+        <script
           src="https://developers.kakao.com/sdk/js/kakao.js"
-          onLoad={kakaoInit}
-        ></Script> */}
+          defer
+        ></script>
         <Layout />
         <Component {...pageProps} />
       </SessionProvider>
