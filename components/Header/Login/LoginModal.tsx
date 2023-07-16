@@ -7,6 +7,7 @@ import { getProviders, signIn, signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { getToken } from "next-auth/jwt";
 import axios from "axios";
+import Kakao from "next-auth/providers/kakao";
 
 export default function LoginModal({ setLoginModalOpen }: any) {
   const router = useRouter();
@@ -19,7 +20,11 @@ export default function LoginModal({ setLoginModalOpen }: any) {
     const redirectURI = "http://localhost:3000";
     const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID}&redirect_uri=${redirectURI}`;
 
-    console.log(kakaoAuthURL);
+    console.log();
+    kakaoAuthURL;
+    Kakao.Auth.authorize({
+      redirectUri: "{REDIRECT_URI}",
+    });
     if (code) {
       setCode(code);
     }
@@ -55,36 +60,35 @@ export default function LoginModal({ setLoginModalOpen }: any) {
     }
   };
 
-  // useEffect(() => {
-  //   const getCode = async (code : string | null) => {
-  //     try {
-  //       const response = await axios.post(
-  //         "https://kauth.kakao.com/oauth/token",
-  //         null,
-  //         {
-  //           params: {
-  //             grant_type: "authorization_code",
-  //             client_id: process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID,
-  //             redirect_uri: "http://localhost:3000",
-  //             code: code,
-  //           },
-  //           headers: {
-  //             "Content-Type": "application/x-www-form-urlencoded",
-  //           },
-  //         }
-  //       );
+  useEffect(() => {
+    const getCode = async (code: string | null) => {
+      try {
+        const response = await axios.post(
+          "https://kauth.kakao.com/oauth/token",
+          null,
+          {
+            params: {
+              grant_type: "authorization_code",
+              client_id: process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID,
+              redirect_uri: "http://localhost:3000",
+              code: code,
+            },
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+          }
+        );
 
-  //       const { access_token } = response.data;
-  //       console.log(access_token);
-  //       return access_token;
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
+        const { access_token } = response.data;
+        console.log(access_token);
+        return access_token;
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-  //     getCode(code);
-  // }, []);
-  // Make a POST request to the Kakao token API
+    getCode(code);
+  }, []);
 
   return (
     <div className="presentation">
